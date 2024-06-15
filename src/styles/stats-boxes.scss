@@ -1,0 +1,34 @@
+// src/styles/stats-boxes.scss
+.stats-boxes {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 20px;
+
+    &__box {
+        width: 30%;
+        padding: 20px;
+        border-radius: 10px;
+        text-align: center;
+        color: #fff;
+
+        &--total-accounts {
+            background-color: #ffd700; // yellow
+        }
+
+        &--total-posts {
+            background-color: #ff6347; // red
+        }
+
+        &--my-posts {
+            background-color: #90ee90; // green
+        }
+    }
+
+    &__label {
+        font-size: 1rem;
+    }
+
+    &__value {
+        font-size: 2rem;
+    }
+}

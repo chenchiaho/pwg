@@ -1,0 +1,47 @@
+.login {
+  &__container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    padding: 1rem;
+    background-color: $secondary-bg-color;
+  }
+
+  &__card {
+    background-color: #ffffff;
+    padding: 2rem;
+    border-radius: 15px;
+    width: 100%;
+    max-width: 450px;
+
+  }
+
+  &__form {
+    padding-top: 2rem;
+  }
+
+  &__title {
+    text-align: center;
+    font-weight: 300;
+  }
+
+  &__error {
+    color: red;
+  }
+    
+  &__loading {
+    color: $primary-color;
+  }
+
+  &__button {
+    border-radius: 15px;
+    width: 100%;
+    margin-top: 1.5rem;
+  }
+
+  &__link {
+    font-weight: 300;
+    margin-top: 1rem;
+  }
+}

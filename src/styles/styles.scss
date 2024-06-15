@@ -1,0 +1,18 @@
+@import './_custom.scss';
+@import './_global.scss';
+
+// Pages
+@import './home.scss';
+@import './login.scss';
+@import './register.scss';
+@import './view-post.scss';
+
+// Components
+@import './alert-modal.scss';
+@import './post-card.scss';
+@import './post-list.scss';
+@import './add-post-form.scss';
+@import './tags-input.scss';
+@import './pagination.scss';
+@import './stats-boxes.scss';
+@import './editor-modal.scss';

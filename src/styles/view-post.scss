@@ -1,0 +1,45 @@
+/* src/styles/ViewPost.scss */
+.view-post {
+  padding: 20px;
+
+  &__back-button {
+    background-color: #ffd700;
+    border: none;
+    border-radius: 5px;
+    color: white;
+    cursor: pointer;
+    font-size: 1rem;
+    margin-bottom: 20px;
+    padding: 10px 20px;
+
+    &:hover {
+      background-color: #f0a30a;
+    }
+  }
+
+  &__title {
+    color: #333;
+    margin: 0 0 20px;
+  }
+
+  &__body {
+    color: #666;
+    font-size: 1.1em;
+    line-height: 1.6;
+    margin-bottom: 20px;
+  }
+
+  &__tags {
+    margin-top: 10px;
+
+    &__tag {
+      background: #f8b959;
+      border-radius: 3px;
+      color: white;
+      display: inline-block;
+      font-size: 0.9em;
+      margin-right: 5px;
+      padding: 5px 10px;
+    }
+  }
+}

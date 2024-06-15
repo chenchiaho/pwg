@@ -1,25 +1,37 @@
-import logo from './logo.svg';
-import './App.css';
+import { BrowserRouter as Router, Route, Routes } from 'react-router-dom'
+import Login from './pages/Login'
+import Register from './pages/Register'
+import Home from './pages/Home'
+import ViewPost from './pages/ViewPost'
+import { AuthProvider } from './routers/AuthContext'
+import ProtectedRoute from './routers/ProtectedRoute'
+import IfAuthenticated from './routers/IfAuthenticated'
 
 function App() {
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
-  );
+
+    <Router>
+      <AuthProvider>
+        <Routes>
+          <Route path="/login" element={
+            <IfAuthenticated>
+              <Login />
+            </IfAuthenticated>
+          } />
+          <Route path="/register" element={
+            <IfAuthenticated>
+              <Register />
+            </IfAuthenticated>
+          } />
+          <Route element={<ProtectedRoute />}>
+            <Route path="/view-post/:id" element={<ViewPost />} />
+            <Route path="/" element={<Home />} />
+          </Route>
+        </Routes>
+      </AuthProvider>
+    </Router>
+
+  )
 }
 
-export default App;
+export default App

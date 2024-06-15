@@ -1,0 +1,88 @@
+.post-card {
+    background-color: #ffffff;
+    border-radius: 8px;
+    padding: 20px;
+    max-width: 300px;
+
+    &__header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-bottom: 10px;
+
+        & .post-card__date {
+            color: $secondary-color;
+            font-size: 0.75rem;
+        }
+
+        & .post-card__logo {
+            width: 30px;
+            height: 30px;
+        }
+    }
+
+    &__title {
+        font-size: 1.25rem;
+        margin: 10px 0;
+        text-align: left; 
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+    }
+
+    &__body {
+        font-size: 1rem;
+        color: #555;
+        margin: 10px 0;
+        text-align: left;
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+    }
+
+    &__tags {
+        display: flex;
+        justify-content: space-between;
+        flex-wrap: wrap;
+        margin: 1rem 0;
+
+        & .post-card__tag {
+            background-color: $secondary-color;
+            border-radius: 30px;
+            padding: 0 1rem;
+            font-size: 0.9rem;
+        }
+    }
+
+    &__actions {
+        display: flex;
+        justify-content: space-between;
+        font-size: 0.5rem;
+        margin-top: 2rem;
+        margin-bottom: 1rem;
+
+        & .post-card__button {
+            
+            &--edit {
+                font-size: 0.9rem;
+                padding: 0 1rem;
+                border-radius: 30px;
+                background-color: $green-btn;
+
+            }
+            &--view {
+                font-size: 0.9rem;
+                padding: 0 1rem;
+                border-radius: 30px;
+                background-color: $primary-color;
+            
+            }
+            &--delete {
+                font-size: 0.9rem;
+                padding: 0 1rem;
+                border-radius: 30px;
+                background-color: $red-btn;
+            }
+        }
+    }
+}

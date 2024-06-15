@@ -1,0 +1,55 @@
+@import './_custom';
+@import '~bootstrap/scss/bootstrap';
+
+
+body {
+  background-color: $primary-bg-color;
+  font-family: 'Roboto', sans-serif;
+}
+
+.primary-btn {
+  background-color: $primary-color;
+  border-color: $primary-color;
+
+  &:hover {
+    background-color: $primary-color-hover;
+    border-color: $primary-color-hover;
+  }
+}
+
+.secondary-btn {
+    background-color: $secondary-color;
+    border-color: $secondary-color;
+  
+    &:hover {
+      background-color: $secondary-color-hover;
+      border-color: $secondary-color-hover;
+    }
+}
+
+.primary-link {
+  text-align: center;
+  margin-top: 1rem;
+
+  a {
+    color: $primary-color;
+    text-decoration: none;
+    font-size: 1.25rem;
+
+    &:hover {
+      color: $primary-color-hover;
+    }
+  }
+}
+
+.form-control {
+  border-color: $primary-color;
+  border-radius: 30px;
+  border-width: 2px;
+
+  &:focus {
+    border-color: $primary-color-hover;
+    box-shadow: 0 0 0 0.2rem rgba(248, 185, 89, 0.25);
+
+  }
+}

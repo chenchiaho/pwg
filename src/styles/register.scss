@@ -1,0 +1,60 @@
+.register {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+  background-color: $secondary-bg-color;
+
+  &__card {
+    background-color: #ffffff;
+    padding: 2.5rem;
+    border-radius: 15px;
+    width: 100%;
+    max-width: 450px;
+  }
+
+  &__title {
+    text-align: center;
+    font-weight: 300;
+    margin-bottom: 3rem;
+  }
+
+
+  &__select {
+    width: 100%;
+    padding: 0.5rem;
+    border: 2px solid $primary-color;
+    border-radius: 30px;
+
+    &:focus {
+        border-color: $primary-color-hover;
+        box-shadow: 0 0 0 0.2rem rgba(248, 185, 89, 0.25);
+        outline: none;
+      }
+  }
+
+  &__error {
+    color: red;
+  }
+
+  &__loading {
+    color: $primary-color;
+  } 
+
+  &__button {
+    width: 100%;
+    border-radius: 15px;
+    margin-top: 2rem;
+  }
+
+  &__footer {
+    text-align: center;
+    margin-top: 1rem;
+  }
+
+  &__link {
+    font-weight: 300;
+    letter-spacing: 0.1em;
+  }
+    
+}

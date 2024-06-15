@@ -1,0 +1,46 @@
+// src/styles/add-post-form.scss
+.add-post-form {
+    &__group {
+        margin-bottom: 1rem;
+    }
+
+    &__label {
+        display: block;
+        margin-bottom: 0.5rem;
+        font-weight: bold;
+    }
+
+    &__textarea {
+        width: 100%;
+        
+    }
+
+    &__alert {
+        padding: 0.75rem 1rem;
+        margin-top: 1rem;
+        border-radius: 4px;
+
+        &--success {
+            background-color: #d4edda;
+            color: #155724;
+        }
+
+        &--error {
+            background-color: #f8d7da;
+            color: #721c24;
+        }
+    }
+
+    &__buttons {
+        display: flex;
+        justify-content: space-around;
+        gap: 1rem;
+    }
+
+    &__button {
+        padding: 0.25rem 3rem;
+        border-radius: 30px;
+        cursor: pointer;
+
+    }
+}
