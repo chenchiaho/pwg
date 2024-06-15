@@ -1,26 +1,30 @@
-// src/styles/stats-boxes.scss
+
 .stats-boxes {
-    display: flex;
-    justify-content: space-between;
-    margin-bottom: 20px;
+    
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 2rem;
+    padding: 20px;
+    justify-content: center;
+    max-width: 1200px;
+    margin: 0 auto;
+
 
     &__box {
-        width: 30%;
-        padding: 20px;
+        padding: 1rem;
         border-radius: 10px;
         text-align: center;
-        color: #fff;
 
         &--total-accounts {
-            background-color: #ffd700; // yellow
+            background-color: $secondary-color
         }
 
         &--total-posts {
-            background-color: #ff6347; // red
+            background-color: $pink-btn
         }
 
         &--my-posts {
-            background-color: #90ee90; // green
+            background-color: $gray-green
         }
     }
 

@@ -1,37 +1,20 @@
 /* Pagination styles */
-.pagination-container {
+.pagination {
     display: flex;
     justify-content: center;
     margin-top: 20px;
-}
 
-.pagination {
-    display: flex;
-    list-style: none;
-    padding: 0;
-
-    .page-item {
-        margin: 0 5px;
-
-        &.active .page-link {
-            background-color: $primary-color;
-            color: white;
-            border: 1px solid $primary-color;
-        }
-    }
-
-    .page-link {
+    &__button {
+        background-color: $primary-color;
+        border: none;
+        color: white;
         padding: 10px 20px;
         border-radius: 5px;
-        border: 1px solid #ddd;
+        margin: 0 5px;
         cursor: pointer;
-        text-decoration: none;
-        color: $primary-color;
 
         &:hover {
             background-color: $primary-color-hover;
-            color: white;
-            border-color: $primary-color-hover;
         }
     }
 }

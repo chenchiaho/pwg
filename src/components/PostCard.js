@@ -25,7 +25,7 @@ const PostCard = ({ post, onViewPost, onEditPost, onDeletePost }) => {
             <div className="post-card__actions">
                 <Button onClick={() => onEditPost(post)} className="post-card__button post-card__button--edit">Edit</Button>
                 <Button onClick={() => onViewPost(post)} className="post-card__button post-card__button--view">View</Button>
-                <Button onClick={() => onDeletePost(post.id)} className="post-card__button post-card__button--delete">Delete</Button>
+                <Button onClick={() => onDeletePost(post.id, post.title)} className="post-card__button post-card__button--delete">Delete</Button>
             </div>
         </div>
     )

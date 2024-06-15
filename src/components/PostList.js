@@ -1,4 +1,3 @@
-import React from 'react'
 import PropTypes from 'prop-types'
 import PostCard from './PostCard'
 import Pagination from './Pagination'

@@ -19,15 +19,17 @@ function Home() {
     const [totalPosts, setTotalPosts] = useState(0)
     const [userRole, setUserRole] = useState('')
     const [showAddModal, setShowAddModal] = useState(false)
+    const [token, setToken] = useState(localStorage.getItem('token'))
     const navigate = useNavigate()
 
     useEffect(() => {
-        const token = localStorage.getItem('token')
-        const user = parseJwt(token)
-        setUserRole(user.role)
+        if (token) {
+            const user = parseJwt(token)
+            setUserRole(user.role)
+            fetchPosts(currentPage, user.role)
+        }
 
-        fetchPosts(currentPage, user.role)
-    }, [currentPage])
+    }, [currentPage, token])
 
     const parseJwt = (token) => {
         try {
@@ -38,8 +40,8 @@ function Home() {
     }
 
     const fetchPosts = async (page, role) => {
-        const token = localStorage.getItem('token')
-        const url = role === 'admin' ? '/api/posts' : '/api/posts/mypost'
+
+        const endPoint = role === 'admin' ? '/api/posts' : '/api/posts/mypost'
         const method = role === 'admin' ? 'get' : 'post'
         const options = {
             headers: { Authorization: `Bearer ${token}` },
@@ -49,18 +51,18 @@ function Home() {
         try {
             const response = await axios({
                 method,
-                url: `${config.baseUrl}${url}`,
+                url: `${config.baseUrl}${endPoint}`,
                 ...(method === 'post' && { data: options.params }),
                 ...(method === 'get' && { params: options.params }),
                 headers: options.headers
             })
 
             console.log('API Response:', response.data)
+
             setPosts(response.data.data || [])
             setTotalPosts(response.data.totalPosts || 0)
         } catch (err) {
-            console.error('API Error:', err)
-            setModalMessage('Error fetching posts')
+            setModalMessage(err.message)
             setModalType('error')
             setModalOpen(true)
         }
@@ -80,10 +82,10 @@ function Home() {
         setShowAddModal(true)
     }
 
-    const handleDeletePost = async (postId) => {
-        if (window.confirm('Are you sure you want to delete this post?')) {
+    const handleDeletePost = async (postId, postTitle) => {
+        if (window.confirm(`Are you sure you want to delete "${postTitle}"?`)) {
             try {
-                const token = localStorage.getItem('token')
+
                 const response = await axios.delete(`${config.baseUrl}/api/posts/delete/${postId}`, {
                     headers: { Authorization: `Bearer ${token}` }
                 })
@@ -92,9 +94,8 @@ function Home() {
                 setModalMessage('Post deleted successfully')
                 setModalType('success')
                 setModalOpen(true)
-            } catch (error) {
-                console.error('API Error:', error)
-                setModalMessage('Error deleting post')
+            } catch (err) {
+                setModalMessage(err.message)
                 setModalType('error')
                 setModalOpen(true)
             }
@@ -103,12 +104,13 @@ function Home() {
 
     const handleLogout = () => {
         localStorage.removeItem('token')
+        setToken('')
         navigate('/login')
     }
 
     return (
         <div className="home">
-            {userRole === 'admin' && <StatsBoxes userRole={userRole} token={localStorage.getItem('token')} />}
+
             <div className="home__header">
                 <Button className="home__button--add primary-btn" onClick={() => { setShowAddModal(true); setSelectedPost(null) }}>
                     Add New Post
@@ -117,7 +119,9 @@ function Home() {
                     Logout
                 </button>
             </div>
+
             <h3 className="home__title">Post List</h3>
+            {userRole === 'admin' && <StatsBoxes userRole={userRole} token={token} totalPosts={totalPosts} />}
             <PostList
                 posts={posts}
                 onViewPost={handleViewPost}

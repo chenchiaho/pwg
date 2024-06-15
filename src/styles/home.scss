@@ -1,4 +1,3 @@
-/* Home styles */
 .home {
     padding: 2rem 6rem;
     text-align: center;
@@ -7,7 +6,7 @@
         display: flex;
         justify-content: space-between;
         align-items: center;
-        margin-bottom: 2rem;
+
 
         & .home__button--logout {
             color: $red-btn;
@@ -29,49 +28,8 @@
     }
 
     &__title {
-        margin: 2rem 0;
-    }
-}
-
-/* Post list styles */
-.post-list-container {
-    max-width: 1200px;
-    margin: 0 auto;
-}
-
-.post-list {
-    display: grid;
-    grid-template-columns: repeat(3, 1fr);
-    gap: 20px;
-    padding: 20px;
-    justify-content: center;
-
-    @media (max-width: 1024px) {
-        grid-template-columns: repeat(2, 1fr);
-    }
-
-    @media (max-width: 768px) {
-        grid-template-columns: 1fr;
-    }
-}
-
-/* Pagination styles */
-.pagination {
-    display: flex;
-    justify-content: center;
-    margin-top: 20px;
-
-    &__button {
-        background-color: $primary-color;
-        border: none;
-        color: white;
-        padding: 10px 20px;
-        border-radius: 5px;
-        margin: 0 5px;
-        cursor: pointer;
-
-        &:hover {
-            background-color: $primary-color-hover;
-        }
+        font-size: 1.25rem;
+        margin-top: 0.5rem;
+        margin-bottom: 3rem;
     }
 }

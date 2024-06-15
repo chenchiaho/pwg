@@ -2,15 +2,13 @@ import React, { useEffect, useState } from 'react'
 import axios from 'axios'
 import config from '../config'
 
-const StatsBoxes = ({ userRole, token }) => {
+const StatsBoxes = ({ userRole, token, totalPosts }) => {
     const [totalAccounts, setTotalAccounts] = useState(0)
-    const [totalPosts, setTotalPosts] = useState(0)
     const [myPosts, setMyPosts] = useState(0)
 
     useEffect(() => {
         if (userRole === 'admin') {
             fetchTotalAccounts()
-            fetchTotalPosts()
             fetchMyPosts()
         }
     }, [userRole])
@@ -22,20 +20,8 @@ const StatsBoxes = ({ userRole, token }) => {
             })
             console.log(response)
             setTotalAccounts(response.data.accounts.length)
-        } catch (error) {
-            console.error('API Error:', error)
-        }
-    }
-
-    const fetchTotalPosts = async () => {
-        try {
-            const response = await axios.get(`${config.baseUrl}/api/posts`, {
-                headers: { Authorization: `Bearer ${token}` },
-                params: { page: 1, limit: 1 }
-            })
-            setTotalPosts(response.data.totalPosts)
-        } catch (error) {
-            console.error('API Error:', error)
+        } catch (err) {
+            console.error('API Error:', err)
         }
     }
 
@@ -45,8 +31,8 @@ const StatsBoxes = ({ userRole, token }) => {
                 headers: { Authorization: `Bearer ${token}` }
             })
             setMyPosts(response.data.totalPosts)
-        } catch (error) {
-            console.error('API Error:', error)
+        } catch (err) {
+            console.error('API Error:', err)
         }
     }
 
