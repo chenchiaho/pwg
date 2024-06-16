@@ -5,6 +5,7 @@ import Input from './Input'
 import EditorModal from './EditorModal'
 import TagsInput from './TagsInput'
 import config from '../config'
+import { validateTitle, validateContent } from '../utils/validateInput'
 
 const AddPostForm = ({ show, handleClose, refreshPosts, selectedPost }) => {
     const [title, setTitle] = useState('')
@@ -28,6 +29,16 @@ const AddPostForm = ({ show, handleClose, refreshPosts, selectedPost }) => {
         e.preventDefault()
 
         setError('')
+
+        if (!validateTitle(title)) {
+            setError('Please ensure it contains only valid characters')
+            return
+        }
+
+        if (!validateContent(body)) {
+            setError('Content must not be empty')
+            return
+        }
 
         if (!tags.length) {
             setError('Please add at least one tag')

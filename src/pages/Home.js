@@ -20,6 +20,7 @@ function Home() {
     const [userRole, setUserRole] = useState('')
     const [showAddModal, setShowAddModal] = useState(false)
     const [token, setToken] = useState(localStorage.getItem('token'))
+    const [totalAccounts, setTotalAccounts] = useState(0)
     const [myPosts, setMyPosts] = useState(0)
     const navigate = useNavigate()
 
@@ -28,6 +29,10 @@ function Home() {
             const user = parseJwt(token)
             setUserRole(user.role)
             fetchPosts(currentPage, user.role)
+            if (user.role === 'admin') {
+                fetchTotalAccounts()
+                fetchMyPosts()
+            }
         }
     }, [currentPage, token])
 
@@ -60,10 +65,38 @@ function Home() {
 
             setPosts(response.data.data || [])
             setTotalPosts(response.data.totalPosts || 0)
+
+
+            if (role === 'admin') {
+                fetchMyPosts()
+            }
         } catch (err) {
             setModalMessage(err.message)
             setModalType('error')
             setModalOpen(true)
+        }
+    }
+
+    const fetchTotalAccounts = async () => {
+        try {
+            const response = await axios.get(`${config.baseUrl}/api/accounts`, {
+                headers: { Authorization: `Bearer ${token}` }
+            })
+            console.log(response)
+            setTotalAccounts(response.data.accounts.length)
+        } catch (err) {
+            console.error('API Error:', err)
+        }
+    }
+
+    const fetchMyPosts = async () => {
+        try {
+            const response = await axios.post(`${config.baseUrl}/api/posts/mypost`, { page: 1, limit: 1 }, {
+                headers: { Authorization: `Bearer ${token}` }
+            })
+            setMyPosts(response.data.totalPosts)
+        } catch (err) {
+            console.error('API Error:', err)
         }
     }
 
@@ -96,6 +129,7 @@ function Home() {
             console.log('API Response:', response.data)
             setModalOpen(false)
             fetchPosts(currentPage, userRole)
+            fetchMyPosts() // Fetch my posts count after deleting a post
 
         } catch (err) {
             setModalMessage(err.message)
@@ -109,7 +143,6 @@ function Home() {
         setToken('')
         navigate('/login')
     }
-
 
     return (
         <div className="home">
@@ -125,7 +158,14 @@ function Home() {
             </div>
 
             <h3 className="home__title">Post List</h3>
-            {userRole === 'admin' && <StatsBoxes userRole={userRole} token={token} totalPosts={totalPosts} />}
+            {userRole === 'admin' &&
+                <StatsBoxes
+                    userRole={userRole}
+                    token={token}
+                    totalPosts={totalPosts}
+                    totalAccounts={totalAccounts}
+                    myPosts={myPosts}
+                />}
             <PostList
                 posts={posts}
                 onViewPost={handleViewPost}
@@ -139,7 +179,10 @@ function Home() {
             <AddPostForm
                 show={showAddModal}
                 handleClose={() => setShowAddModal(false)}
-                refreshPosts={() => fetchPosts(currentPage, userRole)}
+                refreshPosts={() => {
+                    fetchPosts(currentPage, userRole)
+                    fetchMyPosts() // Fetch my posts count after adding a post
+                }}
                 selectedPost={selectedPost}
             />
             <AlertModal

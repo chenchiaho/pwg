@@ -1,41 +1,6 @@
-import React, { useEffect, useState } from 'react'
-import axios from 'axios'
-import config from '../config'
+import React from 'react'
 
-const StatsBoxes = ({ userRole, token, totalPosts }) => {
-    const [totalAccounts, setTotalAccounts] = useState(0)
-    const [myPosts, setMyPosts] = useState(0)
-
-    useEffect(() => {
-        if (userRole === 'admin') {
-            fetchTotalAccounts()
-            fetchMyPosts()
-        }
-    }, [userRole])
-
-    const fetchTotalAccounts = async () => {
-        try {
-            const response = await axios.get(`${config.baseUrl}/api/accounts`, {
-                headers: { Authorization: `Bearer ${token}` }
-            })
-            console.log(response)
-            setTotalAccounts(response.data.accounts.length)
-        } catch (err) {
-            console.error('API Error:', err)
-        }
-    }
-
-    const fetchMyPosts = async () => {
-        try {
-            const response = await axios.post(`${config.baseUrl}/api/posts/mypost`, { page: 1, limit: 1 }, {
-                headers: { Authorization: `Bearer ${token}` }
-            })
-            setMyPosts(response.data.totalPosts)
-        } catch (err) {
-            console.error('API Error:', err)
-        }
-    }
-
+const StatsBoxes = ({ userRole, token, totalPosts, totalAccounts, myPosts }) => {
     return (
         <div className="stats-boxes">
             <div className="stats-boxes__box stats-boxes__box--total-accounts">
