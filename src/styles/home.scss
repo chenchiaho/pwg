@@ -2,10 +2,16 @@
     padding: 2rem 6rem;
     text-align: center;
 
+    &__header-container {
+            max-width: $max-content-width;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
     &__header {
         display: flex;
         justify-content: space-between;
-        align-items: center;
+        align-items: center;       
 
 
         & .home__button--logout {

@@ -1,21 +1,21 @@
 .post-list-container {
-    max-width: 1200px;
+    max-width: $max-content-width;
     margin: 0 auto;
 
-}
+    &__box {
+        display: grid;
+        justify-content: center;
+        align-items: center;
+        grid-template-columns: repeat(auto-fill, minmax(18rem, 1fr));
+        gap: 2rem;
+        padding: 20px;
 
-.post-list {
-    display: grid;
-    grid-template-columns: repeat(3, 1fr);
-    gap: 2rem;
-    padding: 20px;
-    justify-content: center;
+        @media (max-width: $breakpoint-md) {
+            grid-template-columns: repeat(auto-fill, minmax(15rem, 1fr));
+        }
 
-    @media (max-width: 1024px) {
-        grid-template-columns: repeat(2, 1fr);
-    }
-
-    @media (max-width: 768px) {
-        grid-template-columns: 1fr;
+        @media (max-width: $breakpoint-sm) {
+            grid-template-columns: repeat(auto-fill, minmax(13rem, 1fr));
+        }
     }
 }

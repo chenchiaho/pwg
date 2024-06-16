@@ -51,9 +51,8 @@
   }
 
   &__tags {
-    display: inline-block;
-
-
+    display: flex; 
+    flex-wrap: wrap; 
   }
 
   &__tag {

@@ -19,7 +19,6 @@
         width: 70%;
         max-width: 650px;
         text-align: center;
-
     }
 
     &__content {
@@ -34,21 +33,53 @@
         &--error .modal__icon {
             color: red;
         }
+
+        &--confirmation .modal__icon {
+            display: none;
+        }
     }
 
-        &__message {
-            font-size: 1.25rem;
-            margin: 2rem 0;
-    
-        }
+    &__title {
+        color: $red-btn;
+        font-weight: 300;
+    }
+
+    &__message {
+        font-size: 1.25rem;
+        margin: 1rem 0;
+    }
 
     &__icon {
         font-size: 3rem;
     }
 
     &__button {
-        padding: 0.5rem;
-        border-radius: 25px;
-        width: 30%;
+        padding: 0.5rem 2.5rem;
+        border-radius: 30px;
+        margin-top: 1rem;
+        font-size: 1rem;
+
+        &--cancel {
+            background-color: $secondary-color;
+            
+            &:hover {
+                background-color: $secondary-color-hover;
+            }
+        }
+
+        &--delete {
+            background-color: $red-btn;
+            
+            &:hover {
+                    background-color: red;
+                }
+        }
+    }
+
+    &__actions {
+        display: flex;
+        justify-content: center;
+        gap: 1rem;
+        width: 100%;
     }
 }

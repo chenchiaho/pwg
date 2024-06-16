@@ -34,6 +34,7 @@ const TagsInput = ({ tags, setTags }) => {
 
     const handleContainerClick = () => {
         inputRef.current.focus()
+        setShowDropdown(true)
     }
 
     return (
@@ -47,6 +48,7 @@ const TagsInput = ({ tags, setTags }) => {
                 <input
                     type="text"
                     className="tags-input__input"
+                    readOnly
                     value={tagInput}
                     onChange={handleTagInputChange}
                     onKeyDown={handleTagInputKeyDown}

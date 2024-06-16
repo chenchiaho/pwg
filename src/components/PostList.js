@@ -5,9 +5,10 @@ import Pagination from './Pagination'
 const PostList = ({ posts, onViewPost, onEditPost, onDeletePost, currentPage, postsPerPage, totalPosts, onPageChange }) => {
     return (
         <div className="post-list-container">
-            <div className="post-list">
+            <div className="post-list-container__box">
                 {posts.map((post) => (
                     <PostCard
+
                         key={post.id}
                         post={post}
                         onViewPost={onViewPost}

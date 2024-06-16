@@ -20,6 +20,7 @@ function Home() {
     const [userRole, setUserRole] = useState('')
     const [showAddModal, setShowAddModal] = useState(false)
     const [token, setToken] = useState(localStorage.getItem('token'))
+    const [myPosts, setMyPosts] = useState(0)
     const navigate = useNavigate()
 
     useEffect(() => {
@@ -28,7 +29,6 @@ function Home() {
             setUserRole(user.role)
             fetchPosts(currentPage, user.role)
         }
-
     }, [currentPage, token])
 
     const parseJwt = (token) => {
@@ -40,7 +40,6 @@ function Home() {
     }
 
     const fetchPosts = async (page, role) => {
-
         const endPoint = role === 'admin' ? '/api/posts' : '/api/posts/mypost'
         const method = role === 'admin' ? 'get' : 'post'
         const options = {
@@ -82,23 +81,26 @@ function Home() {
         setShowAddModal(true)
     }
 
-    const handleDeletePost = async (postId, postTitle) => {
-        if (window.confirm(`Are you sure you want to delete "${postTitle}"?`)) {
-            try {
+    const handleDeletePost = (postId, postTitle) => {
+        setSelectedPost({ id: postId, title: postTitle })
+        setModalMessage('Are you sure you want to delete this post?')
+        setModalType('confirmation')
+        setModalOpen(true)
+    }
 
-                const response = await axios.delete(`${config.baseUrl}/api/posts/delete/${postId}`, {
-                    headers: { Authorization: `Bearer ${token}` }
-                })
-                console.log('API Response:', response.data)
-                fetchPosts(currentPage, userRole)
-                setModalMessage('Post deleted successfully')
-                setModalType('success')
-                setModalOpen(true)
-            } catch (err) {
-                setModalMessage(err.message)
-                setModalType('error')
-                setModalOpen(true)
-            }
+    const confirmDeletePost = async () => {
+        try {
+            const response = await axios.delete(`${config.baseUrl}/api/posts/delete/${selectedPost.id}`, {
+                headers: { Authorization: `Bearer ${token}` }
+            })
+            console.log('API Response:', response.data)
+            setModalOpen(false)
+            fetchPosts(currentPage, userRole)
+
+        } catch (err) {
+            setModalMessage(err.message)
+            setModalType('error')
+            setModalOpen(true)
         }
     }
 
@@ -108,16 +110,18 @@ function Home() {
         navigate('/login')
     }
 
+
     return (
         <div className="home">
-
-            <div className="home__header">
-                <Button className="home__button--add primary-btn" onClick={() => { setShowAddModal(true); setSelectedPost(null) }}>
-                    Add New Post
-                </Button>
-                <button className="home__button--logout" onClick={handleLogout}>
-                    Logout
-                </button>
+            <div className="home__header-container">
+                <div className="home__header">
+                    <Button className="home__button--add primary-btn" onClick={() => { setShowAddModal(true); setSelectedPost(null); }}>
+                        Add New Post
+                    </Button>
+                    <button className="home__button--logout" onClick={handleLogout}>
+                        Logout
+                    </button>
+                </div>
             </div>
 
             <h3 className="home__title">Post List</h3>
@@ -126,7 +130,7 @@ function Home() {
                 posts={posts}
                 onViewPost={handleViewPost}
                 onEditPost={handleEditPost}
-                onDeletePost={handleDeletePost}
+                onDeletePost={(postId, postTitle) => handleDeletePost(postId, postTitle)}
                 currentPage={currentPage}
                 postsPerPage={postsPerPage}
                 totalPosts={totalPosts}
@@ -143,6 +147,9 @@ function Home() {
                 message={modalMessage}
                 type={modalType}
                 onClose={() => setModalOpen(false)}
+                onConfirm={confirmDeletePost}
+                postTitle={selectedPost?.title}
+                onOutsideClick={() => setModalOpen(false)}
             />
         </div>
     )

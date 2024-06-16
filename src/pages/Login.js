@@ -15,7 +15,7 @@ const Login = () => {
     const [error, setError] = useState('')
     const [modalOpen, setModalOpen] = useState(false)
     const [modalMessage, setModalMessage] = useState('')
-    const [modalType, setModalType] = useState('')
+    const [modalType, setModalType] = useState(null)
     const navigate = useNavigate()
     const [loading, setLoading] = useState(false)
 
@@ -101,13 +101,15 @@ const Login = () => {
                         Create an account </a>
                 </p>
             </div>
-            <AlertModal
-                isOpen={modalOpen}
-                message={modalMessage}
-                type={modalType}
-                onClose={() => setModalOpen(false)}
-                onOutsideClick={handleOutsideClick}
-            />
+            {modalType && (
+                <AlertModal
+                    isOpen={modalOpen}
+                    message={modalMessage}
+                    type={modalType}
+                    onClose={() => setModalOpen(false)}
+                    onOutsideClick={handleOutsideClick}
+                />
+            )}
         </div>
     )
 }

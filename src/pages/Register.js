@@ -16,7 +16,7 @@ function Register() {
     const [error, setError] = useState('')
     const [modalOpen, setModalOpen] = useState(false)
     const [modalMessage, setModalMessage] = useState('')
-    const [modalType, setModalType] = useState('')
+    const [modalType, setModalType] = useState(null)
     const navigate = useNavigate()
     const [loading, setLoading] = useState(false)
 
@@ -113,13 +113,16 @@ function Register() {
                     <a href="/login" className="register__link">Back to Login Page</a>
                 </p>
             </div>
-            <AlertModal
-                isOpen={modalOpen}
-                message={modalMessage}
-                type={modalType}
-                onClose={() => setModalOpen(false)}
-                onOutsideClick={() => modalType === 'success' ? setModalOpen(false) : null}
-            />
+            {modalType && (
+                <AlertModal
+                    isOpen={modalOpen}
+                    message={modalMessage}
+                    type={modalType}
+                    onClose={() => setModalOpen(false)}
+                    onOutsideClick={() => modalType === 'success' ? setModalOpen(false) : null}
+                />
+            )}
+
         </div>
     )
 }

@@ -8,9 +8,21 @@ const PostCard = ({ post, onViewPost, onEditPost, onDeletePost }) => {
         return text.length > maxLength ? `${text.substring(0, maxLength)}...` : text
     }
 
+    const renderTags = (tags, limit) => {
+        return (
+            <>
+                {tags.slice(0, limit).map((tag, index) => (
+                    <span key={index} className="post-card__tag">{tag}</span>
+                ))}
+                {tags.length > limit && <span className="post-card__tag">...</span>}
+            </>
+        )
+    }
+
     const formattedDate = new Date(post.date).toISOString().split('T')[0]
 
     return (
+
         <div className="post-card">
             <div className="post-card__header">
                 <span className="post-card__date">{formattedDate}</span>
@@ -19,9 +31,7 @@ const PostCard = ({ post, onViewPost, onEditPost, onDeletePost }) => {
             <h3 className="post-card__title">{post.title}</h3>
             <p className="post-card__body">{truncateText(post.body, 140)}</p>
             <div className="post-card__tags">
-                {post.tags.map((tag, index) => (
-                    <span key={index} className="post-card__tag">{tag}</span>
-                ))}
+                {renderTags(post.tags, 5)}
             </div>
             <div className="post-card__actions">
                 <Button onClick={() => onEditPost(post)} className="post-card__button post-card__button--edit">Edit</Button>

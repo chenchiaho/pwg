@@ -2,8 +2,7 @@
     background-color: #ffffff;
     border-radius: 8px;
     padding: 20px;
-    max-width: 20rem;
-
+    max-width: 100%;
 
     &__header {
         display: flex;
@@ -25,7 +24,7 @@
     &__title {
         font-size: 1.25rem;
         margin: 1rem 0;
-        text-align: left; 
+        text-align: left;
         white-space: nowrap;
         overflow: hidden;
         text-overflow: ellipsis;
@@ -67,27 +66,49 @@
         margin-bottom: 1rem;
 
         & .post-card__button {
-            
-            &--edit {
-                font-size: 0.9rem;
-                padding: 0 1.5rem;
-                border-radius: 30px;
-                background-color: $green-btn;
 
-            }
-            &--view {
-                font-size: 0.9rem;
-                padding: 0 1.5rem;
-                border-radius: 30px;
-                background-color: $primary-color;
-            
-            }
+            &--edit,
+            &--view,
             &--delete {
                 font-size: 0.9rem;
                 padding: 0 1.5rem;
                 border-radius: 30px;
+            }
+
+            &--edit {
+                background-color: $green-btn;
+            }
+
+            &--view {
+                background-color: $primary-color;
+            }
+
+            &--delete {
                 background-color: $red-btn;
             }
+        }
+    }
+
+    @media (max-width: $breakpoint-md) {
+        &__actions {
+            justify-content: center;
+            gap: 1rem;
+
+            & .post-card__button {
+                padding: 0 1rem;
+            }
+        }
+    }
+
+    @media (max-width: $breakpoint-sm) {
+        &__actions {
+            justify-content: center;
+            gap: 0.75rem;
+
+            & .post-card__button {
+                    padding: 0 0.75rem;
+                }
+
         }
     }
 }

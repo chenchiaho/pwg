@@ -10,14 +10,13 @@ const AddPostForm = ({ show, handleClose, refreshPosts, selectedPost }) => {
     const [title, setTitle] = useState('')
     const [body, setBody] = useState('')
     const [tags, setTags] = useState([])
-    const [modalMessage, setModalMessage] = useState('')
-    const [modalType, setModalType] = useState('')
+    const [error, setError] = useState('')
 
     useEffect(() => {
         if (selectedPost) {
             setTitle(selectedPost.title)
             setBody(selectedPost.body)
-            setTags(selectedPost.tags)
+            setTags(selectedPost.tags || [])
         } else {
             setTitle('')
             setBody('')
@@ -27,6 +26,14 @@ const AddPostForm = ({ show, handleClose, refreshPosts, selectedPost }) => {
 
     const handleSubmit = async (e) => {
         e.preventDefault()
+
+        setError('')
+
+        if (!tags.length) {
+            setError('Please add at least one tag')
+            return
+        }
+
         const token = localStorage.getItem('token')
         try {
             const url = selectedPost
@@ -44,18 +51,16 @@ const AddPostForm = ({ show, handleClose, refreshPosts, selectedPost }) => {
 
             console.log('API Response:', response.data)
 
-            setModalMessage(selectedPost ? 'Post updated successfully' : 'Post added successfully')
-            setModalType('success')
             refreshPosts()
             handleClose()
             // Clear the form fields
             setTitle('')
             setBody('')
             setTags([])
+            setError('')
         } catch (err) {
             console.error('API Error:', err)
-            setModalMessage('Error adding/updating post')
-            setModalType('error')
+            setError(err.message)
         }
     }
 
@@ -82,19 +87,21 @@ const AddPostForm = ({ show, handleClose, refreshPosts, selectedPost }) => {
                     <label className="add-post-form__label">Tags</label>
                     <TagsInput tags={tags} setTags={setTags} />
                 </div>
-
+                {error && <p className="add-post-form__error">{error}</p>}
                 <div className="add-post-form__buttons">
-                    <Button type="button" onClick={handleClose} className="add-post-form__button secondary-btn">Cancel</Button>
+                    <Button
+                        type="button"
+                        onClick={() => {
+                            handleClose();
+                            setError('');
+                        }}
+                        className="add-post-form__button secondary-btn">Cancel</Button>
                     <Button type="submit" className="add-post-form__button add-post-form__button--submit primary-btn">
-                        {selectedPost ? "Update" : "Add"}
+                        {selectedPost ? "Edit" : "Add"}
                     </Button>
                 </div>
             </form>
-            {modalMessage && (
-                <div className={`alert ${modalType === 'success' ? 'alert-success' : 'alert-danger'}`}>
-                    {modalMessage}
-                </div>
-            )}
+
         </EditorModal>
     )
 }

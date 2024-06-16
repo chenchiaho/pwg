@@ -1,17 +1,17 @@
 .modal {
-  &__content {
+  &__editor-content {
     padding: 2rem;
     border-radius: 8px;
     background-color: white;
   }
 
-  &__header {
+  &__editor-header {
     display: flex;
     justify-content: center;
     padding: 1rem;
   }
 
-  &__body {
+  &__editor-body {
     padding: 1rem;
   }
 
