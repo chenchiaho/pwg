@@ -1,6 +1,4 @@
-import React from 'react'
-
-const StatsBoxes = ({ userRole, token, totalPosts, totalAccounts, myPosts }) => {
+const StatsBoxes = ({ totalPosts, totalAccounts, myPosts }) => {
     return (
         <div className="stats-boxes">
             <div className="stats-boxes__box stats-boxes__box--total-accounts">

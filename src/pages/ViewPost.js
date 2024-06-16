@@ -19,7 +19,7 @@ function ViewPost() {
             const response = await axios.get(`${config.baseUrl}/api/posts/view/${id}`, {
                 headers: { Authorization: `Bearer ${token}` },
             })
-            console.log(response)
+
             setPost(response.data)
         } catch (err) {
             console.error('API Error:', err)

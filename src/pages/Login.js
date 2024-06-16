@@ -16,10 +16,9 @@ const Login = () => {
     const [modalOpen, setModalOpen] = useState(false)
     const [modalMessage, setModalMessage] = useState('')
     const [modalType, setModalType] = useState(null)
-    const navigate = useNavigate()
     const [loading, setLoading] = useState(false)
-
     const dotsAnime = useLoading(loading)
+    const navigate = useNavigate()
 
     const handleSubmit = async (e) => {
 

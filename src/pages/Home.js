@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react'
+import React, { useState, useEffect, useCallback } from 'react'
 import { useNavigate } from 'react-router-dom'
 import axios from 'axios'
 import PostList from '../components/PostList'
@@ -24,27 +24,26 @@ function Home() {
     const [myPosts, setMyPosts] = useState(0)
     const navigate = useNavigate()
 
-    useEffect(() => {
-        if (token) {
-            const user = parseJwt(token)
-            setUserRole(user.role)
-            fetchPosts(currentPage, user.role)
-            if (user.role === 'admin') {
-                fetchTotalAccounts()
-                fetchMyPosts()
-            }
-        }
-    }, [currentPage, token])
-
-    const parseJwt = (token) => {
+    const parseJwt = useCallback((token) => {
         try {
             return JSON.parse(atob(token.split('.')[1]))
         } catch (e) {
             return null
         }
-    }
+    }, [])
 
-    const fetchPosts = async (page, role) => {
+    const fetchMyPosts = useCallback(async () => {
+        try {
+            const response = await axios.post(`${config.baseUrl}/api/posts/mypost`, { page: 1, limit: 1 }, {
+                headers: { Authorization: `Bearer ${token}` }
+            })
+            setMyPosts(response.data.totalPosts)
+        } catch (err) {
+            console.error('API Error:', err)
+        }
+    }, [token])
+
+    const fetchPosts = useCallback(async (page, role) => {
         const endPoint = role === 'admin' ? '/api/posts' : '/api/posts/mypost'
         const method = role === 'admin' ? 'get' : 'post'
         const options = {
@@ -61,11 +60,8 @@ function Home() {
                 headers: options.headers
             })
 
-            console.log('API Response:', response.data)
-
             setPosts(response.data.data || [])
             setTotalPosts(response.data.totalPosts || 0)
-
 
             if (role === 'admin') {
                 fetchMyPosts()
@@ -75,30 +71,31 @@ function Home() {
             setModalType('error')
             setModalOpen(true)
         }
-    }
+    }, [token, postsPerPage, fetchMyPosts])
 
-    const fetchTotalAccounts = async () => {
+    const fetchTotalAccounts = useCallback(async () => {
         try {
             const response = await axios.get(`${config.baseUrl}/api/accounts`, {
                 headers: { Authorization: `Bearer ${token}` }
             })
-            console.log(response)
+
             setTotalAccounts(response.data.accounts.length)
         } catch (err) {
             console.error('API Error:', err)
         }
-    }
+    }, [token])
 
-    const fetchMyPosts = async () => {
-        try {
-            const response = await axios.post(`${config.baseUrl}/api/posts/mypost`, { page: 1, limit: 1 }, {
-                headers: { Authorization: `Bearer ${token}` }
-            })
-            setMyPosts(response.data.totalPosts)
-        } catch (err) {
-            console.error('API Error:', err)
+    useEffect(() => {
+        if (token) {
+            const user = parseJwt(token)
+            setUserRole(user.role)
+            fetchPosts(currentPage, user.role)
+            if (user.role === 'admin') {
+                fetchTotalAccounts()
+                fetchMyPosts()
+            }
         }
-    }
+    }, [currentPage, token, fetchPosts, fetchTotalAccounts, fetchMyPosts, parseJwt])
 
     const handlePageChange = (page) => {
         setCurrentPage(page)
@@ -129,7 +126,7 @@ function Home() {
             console.log('API Response:', response.data)
             setModalOpen(false)
             fetchPosts(currentPage, userRole)
-            fetchMyPosts() // Fetch my posts count after deleting a post
+            fetchMyPosts()
 
         } catch (err) {
             setModalMessage(err.message)
@@ -181,7 +178,7 @@ function Home() {
                 handleClose={() => setShowAddModal(false)}
                 refreshPosts={() => {
                     fetchPosts(currentPage, userRole)
-                    fetchMyPosts() // Fetch my posts count after adding a post
+                    fetchMyPosts()
                 }}
                 selectedPost={selectedPost}
             />

@@ -20,6 +20,10 @@
             border: none;
             background: none;
             font-size: 1.25rem;
+
+            @media (max-width: $breakpoint-sm) {
+                font-size: 0.9rem;
+            }
         }
 
         & .home__button--add {
@@ -29,6 +33,13 @@
 
             &:hover {
                 background-color: $primary-color-hover;
+            }
+
+            
+            @media (max-width: $breakpoint-sm) {
+                padding: 0 0.8rem;
+                border-radius: 15px;
+                font-size: 0.8rem;
             }
         }
     }
