@@ -1,17 +1,31 @@
-/* Pagination styles */
 .pagination {
     display: flex;
     justify-content: center;
     margin-top: 20px;
 
-    &__button {
-        background-color: $primary-color;
-        border: none;
-        color: white;
-        padding: 10px 20px;
-        border-radius: 5px;
+    &__list {
+        display: flex;
+        list-style: none;
+        padding: 0;
+    }
+
+    &__item {
         margin: 0 5px;
+
+        &--active .pagination__link {
+            background-color: $primary-color;
+            color: black;
+        }
+    }
+
+    &__link {
+        background-color: $secondary-bg-color;
+        color: black;
+        border: none;
+        padding: 0.4rem 0.75rem;
+        border-radius: 5px;
         cursor: pointer;
+        text-decoration: none;
 
         &:hover {
             background-color: $primary-color-hover;

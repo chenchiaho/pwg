@@ -1,45 +1,66 @@
-/* src/styles/ViewPost.scss */
 .view-post {
-  padding: 20px;
+  padding: 2rem 4rem;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
 
-  &__back-button {
-    background-color: #ffd700;
-    border: none;
-    border-radius: 5px;
-    color: white;
+
+  &__header {
+    width: 100%;
+    max-width: 800px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+
+  &__btn--back {
+    border-radius: 30px;
+    padding: 0 1.75rem;
+  }
+
+  &__btn--logout {
+    color: $red-btn;
     cursor: pointer;
-    font-size: 1rem;
-    margin-bottom: 20px;
-    padding: 10px 20px;
-
-    &:hover {
-      background-color: #f0a30a;
-    }
+    border: none;
+    background: none;
+    font-size: 1.25rem;
   }
 
   &__title {
-    color: #333;
-    margin: 0 0 20px;
+    margin-top: 1.5rem;
+    text-align: center;
+  }
+
+  &__content {
+    background-color: #fff;
+    padding: 3rem;
+    border-radius: 10px;
+    width: 100%;
+    max-width: 800px;
+    margin-top: 2rem;
+  }
+
+  &__post-title {
+    text-align: start;
+    font-size: 1.5rem;
   }
 
   &__body {
-    color: #666;
-    font-size: 1.1em;
-    line-height: 1.6;
-    margin-bottom: 20px;
+    margin-top: 1.5rem;
+    text-align: start;
   }
 
   &__tags {
-    margin-top: 10px;
+    display: inline-block;
 
-    &__tag {
-      background: #f8b959;
-      border-radius: 3px;
-      color: white;
-      display: inline-block;
-      font-size: 0.9em;
-      margin-right: 5px;
-      padding: 5px 10px;
-    }
+
+  }
+
+  &__tag {
+    border-radius: 30px;
+    margin-right: 0.25rem;
+    padding: 0.25rem 1rem;
+    background-color: $secondary-color;
+    white-space: nowrap;
   }
 }

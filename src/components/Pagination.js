@@ -9,19 +9,19 @@ const Pagination = ({ currentPage, postsPerPage, totalPosts, onPageChange }) => 
     }
 
     return (
-        <nav className="pagination-container">
-            <ul className="pagination">
+        <nav className="pagination">
+            <ul className="pagination__list">
                 {pageNumbers.map((number) => (
                     <li
                         key={number}
-                        className={`page-item ${currentPage === number ? 'active' : ''}`}
+                        className={`pagination__item ${currentPage === number ? 'pagination__item--active' : ''}`}
                     >
                         <a
                             onClick={(e) => {
                                 e.preventDefault()
                                 onPageChange(number)
                             }}
-                            className="page-link"
+                            className="pagination__link"
                             href="#"
                         >
                             {number}

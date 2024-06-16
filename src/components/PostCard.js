@@ -3,6 +3,7 @@ import PropTypes from 'prop-types'
 import Button from './Button'
 
 const PostCard = ({ post, onViewPost, onEditPost, onDeletePost }) => {
+
     const truncateText = (text, maxLength) => {
         return text.length > maxLength ? `${text.substring(0, maxLength)}...` : text
     }
@@ -15,8 +16,8 @@ const PostCard = ({ post, onViewPost, onEditPost, onDeletePost }) => {
                 <span className="post-card__date">{formattedDate}</span>
                 <span className="post-card__logo">Logo</span>
             </div>
-            <h3 className="post-card__title">{truncateText(post.title, 50)}</h3>
-            <p className="post-card__body">{truncateText(post.body, 150)}</p>
+            <h3 className="post-card__title">{post.title}</h3>
+            <p className="post-card__body">{truncateText(post.body, 140)}</p>
             <div className="post-card__tags">
                 {post.tags.map((tag, index) => (
                     <span key={index} className="post-card__tag">{tag}</span>
