@@ -60,6 +60,11 @@ function Home() {
                 headers: options.headers
             })
 
+            // console.log("Current Page:", page)
+            // console.log("Posts Per Page:", postsPerPage)
+            // console.log("Total Posts from API:", response.data.totalPosts)
+            // console.log("Number of Posts Fetched:", response.data.data.length)
+
             setPosts(response.data.data || [])
             setTotalPosts(response.data.totalPosts || 0)
 

@@ -6,10 +6,9 @@ const PostList = ({ posts, onViewPost, onEditPost, onDeletePost, currentPage, po
     return (
         <div className="post-list-container">
             <div className="post-list-container__box">
-                {posts.map((post) => (
+                {posts.map((post, index) => (
                     <PostCard
-
-                        key={post.id}
+                        key={index}
                         post={post}
                         onViewPost={onViewPost}
                         onEditPost={onEditPost}
