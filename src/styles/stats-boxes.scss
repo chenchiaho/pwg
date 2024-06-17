@@ -10,7 +10,7 @@
     margin: 0 auto;
     white-space: nowrap;
 
-        @media (max-width: 768px) {
+        @media (max-width: $breakpoint-sm) {
                 grid-template-columns: 1fr;
                 justify-items: center;
         
