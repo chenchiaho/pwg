@@ -13,7 +13,7 @@ function Register() {
     const [email, setEmail] = useState('')
     const [password, setPassword] = useState('')
     const [role, setRole] = useState('user')
-    const [error, setError] = useState('')
+    const [errors, setErrors] = useState({})
     const [modalOpen, setModalOpen] = useState(false)
     const [modalMessage, setModalMessage] = useState('')
     const [modalType, setModalType] = useState(null)
@@ -23,28 +23,28 @@ function Register() {
     const dotsAnime = useLoading(loading)
 
     const handleSubmit = async (e) => {
-
         e.preventDefault()
-        setError('')
+        const newErrors = {}
 
         if (password.length < 6) {
-            setError('Password must be at least 6 characters')
-            return
+            newErrors.password = 'Password must be at least 6 characters'
         }
 
         if (!validateUsername(username)) {
-            setError('Username can only contain letters, numbers, and underscores')
-            return
+            newErrors.username = 'Username can only contain letters, numbers, and underscores'
         }
 
         if (!validateEmail(email)) {
-            setError('Invalid email format')
+            newErrors.email = 'Invalid email format'
+        }
+
+        if (Object.keys(newErrors).length > 0) {
+            setErrors(newErrors)
             return
         }
 
         try {
             setLoading(true)
-            console.log('Registering begins')
             const response = await axios.post(`${config.baseUrl}/api/account/register`, {
                 username,
                 email,
@@ -63,12 +63,36 @@ function Register() {
             }, 1000)
 
         } catch (err) {
-            console.log(err)
             setModalMessage(err.response.data.error || 'Error registering')
             setModalType('error')
             setModalOpen(true)
         } finally {
             setLoading(false)
+        }
+    }
+
+    const handleInputChange = (field, value) => {
+        switch (field) {
+            case 'username':
+                setUsername(value)
+                if (errors.username && validateUsername(value)) {
+                    setErrors(prev => ({ ...prev, username: null }))
+                }
+                break
+            case 'email':
+                setEmail(value)
+                if (errors.email && validateEmail(value)) {
+                    setErrors(prev => ({ ...prev, email: null }))
+                }
+                break
+            case 'password':
+                setPassword(value)
+                if (errors.password && value.length >= 6) {
+                    setErrors(prev => ({ ...prev, password: null }))
+                }
+                break
+            default:
+                break
         }
     }
 
@@ -80,23 +104,26 @@ function Register() {
                     <Input
                         label="Username"
                         value={username}
-                        onChange={(e) => setUsername(e.target.value)}
+                        onChange={(e) => handleInputChange('username', e.target.value)}
                         required
                     />
+                    {errors.username && <p className="register__error">{errors.username}</p>}
                     <Input
                         label="Email"
                         type="email"
                         value={email}
-                        onChange={(e) => setEmail(e.target.value)}
+                        onChange={(e) => handleInputChange('email', e.target.value)}
                         required
                     />
+                    {errors.email && <p className="register__error">{errors.email}</p>}
                     <Input
                         label="Password"
                         type="password"
                         value={password}
-                        onChange={(e) => setPassword(e.target.value)}
+                        onChange={(e) => handleInputChange('password', e.target.value)}
                         required
                     />
+                    {errors.password && <p className="register__error">{errors.password}</p>}
                     <div className="register__form-group">
                         <label className="register__label">Role</label>
                         <select className="register__select" value={role}
@@ -105,7 +132,6 @@ function Register() {
                             <option value="admin">admin</option>
                         </select>
                     </div>
-                    {error && <p className="register__error">{error}</p>}
                     {loading && <p className="register__loading">Processing{dotsAnime}</p>}
                     <Button type="submit" className="register__button primary-btn">Register</Button>
                 </form>
@@ -122,7 +148,6 @@ function Register() {
                     onOutsideClick={() => modalType === 'success' ? setModalOpen(false) : null}
                 />
             )}
-
         </div>
     )
 }

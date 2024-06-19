@@ -37,6 +37,7 @@ function Home() {
             const response = await axios.post(`${config.baseUrl}/api/posts/mypost`, { page: 1, limit: 1 }, {
                 headers: { Authorization: `Bearer ${token}` }
             })
+            console.log(response)
             setMyPosts(response.data.totalPosts)
         } catch (err) {
             console.error('API Error:', err)

@@ -8,11 +8,10 @@ import config from '../config.js'
 import { validateEmail } from '../utils/validateInput.js'
 import useLoading from '../utils/useLoading.js'
 
-
 const Login = () => {
     const [email, setEmail] = useState('')
     const [password, setPassword] = useState('')
-    const [error, setError] = useState('')
+    const [errors, setErrors] = useState({})
     const [modalOpen, setModalOpen] = useState(false)
     const [modalMessage, setModalMessage] = useState('')
     const [modalType, setModalType] = useState(null)
@@ -21,17 +20,19 @@ const Login = () => {
     const navigate = useNavigate()
 
     const handleSubmit = async (e) => {
-
         e.preventDefault()
-        setError('')
+        const newErrors = {}
 
         if (password.length < 6) {
-            setError('Password must be at least 6 characters')
-            return
+            newErrors.password = 'Password must be at least 6 characters'
         }
 
         if (!validateEmail(email)) {
-            setError('Invalid email format')
+            newErrors.email = 'Invalid email format'
+        }
+
+        if (Object.keys(newErrors).length > 0) {
+            setErrors(newErrors)
             return
         }
 
@@ -51,14 +52,31 @@ const Login = () => {
             }, 1000)
 
         } catch (error) {
-
             const errorMessage = error.response.data.error || 'An unexpected error occurred'
             setModalMessage(errorMessage)
             setModalType('error')
             setModalOpen(true)
-
         } finally {
             setLoading(false)
+        }
+    }
+
+    const handleInputChange = (field, value) => {
+        switch (field) {
+            case 'email':
+                setEmail(value)
+                if (errors.email && validateEmail(value)) {
+                    setErrors(prev => ({ ...prev, email: null }))
+                }
+                break
+            case 'password':
+                setPassword(value)
+                if (errors.password && value.length >= 6) {
+                    setErrors(prev => ({ ...prev, password: null }))
+                }
+                break
+            default:
+                break
         }
     }
 
@@ -80,24 +98,23 @@ const Login = () => {
                         label="Email"
                         type="email"
                         value={email}
-                        onChange={(e) => setEmail(e.target.value)}
+                        onChange={(e) => handleInputChange('email', e.target.value)}
                         required
                     />
+                    {errors.email && <p className="login__error">{errors.email}</p>}
                     <Input
                         label="Password"
                         type="password"
                         value={password}
-                        onChange={(e) => setPassword(e.target.value)}
+                        onChange={(e) => handleInputChange('password', e.target.value)}
                         required
                     />
-                    {error && <p className="login__error">{error}</p>}
+                    {errors.password && <p className="login__error">{errors.password}</p>}
                     {loading && <p className="login__loading">Processing{dotsAnime}</p>}
                     <Button type="submit" className="login__button primary-btn">Login</Button>
                 </form>
-
                 <p className="login__link primary-link">
-                    <a href="/register">
-                        Create an account </a>
+                    <a href="/register">Create an account</a>
                 </p>
             </div>
             {modalType && (
