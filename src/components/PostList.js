@@ -2,7 +2,7 @@ import PropTypes from 'prop-types'
 import PostCard from './PostCard'
 import Pagination from './Pagination'
 
-const PostList = ({ posts, onViewPost, onEditPost, onDeletePost, currentPage, postsPerPage, totalPosts, onPageChange }) => {
+const PostList = ({ posts, onViewPost, onEditPost, onDeletePost, currentPage, postsPerPage, myPosts, onPageChange }) => {
     return (
         <div className="post-list-container">
             <div className="post-list-container__box">
@@ -19,7 +19,7 @@ const PostList = ({ posts, onViewPost, onEditPost, onDeletePost, currentPage, po
             <Pagination
                 currentPage={currentPage}
                 postsPerPage={postsPerPage}
-                totalPosts={totalPosts}
+                myPosts={myPosts}
                 onPageChange={onPageChange}
             />
         </div>
@@ -33,7 +33,7 @@ PostList.propTypes = {
     onDeletePost: PropTypes.func.isRequired,
     currentPage: PropTypes.number.isRequired,
     postsPerPage: PropTypes.number.isRequired,
-    totalPosts: PropTypes.number.isRequired,
+    myPosts: PropTypes.number.isRequired,
     onPageChange: PropTypes.func.isRequired,
 }
 

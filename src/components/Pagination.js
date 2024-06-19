@@ -1,10 +1,10 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 
-const Pagination = ({ currentPage, postsPerPage, totalPosts, onPageChange }) => {
+const Pagination = ({ currentPage, postsPerPage, myPosts, onPageChange }) => {
     const pageNumbers = []
 
-    for (let i = 1; i <= Math.ceil(totalPosts / postsPerPage); i++) {
+    for (let i = 1; i <= Math.ceil(myPosts / postsPerPage); i++) {
         pageNumbers.push(i)
     }
 
@@ -36,7 +36,7 @@ const Pagination = ({ currentPage, postsPerPage, totalPosts, onPageChange }) => 
 Pagination.propTypes = {
     currentPage: PropTypes.number.isRequired,
     postsPerPage: PropTypes.number.isRequired,
-    totalPosts: PropTypes.number.isRequired,
+    myPosts: PropTypes.number.isRequired,
     onPageChange: PropTypes.func.isRequired,
 }
 

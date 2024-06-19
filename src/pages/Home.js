@@ -38,7 +38,7 @@ function Home() {
                 headers: { Authorization: `Bearer ${token}` },
                 params: { page: 1, limit: 1 }
             })
-            console.log(response)
+
             setTotalPosts(response.data.totalPosts)
         } catch (err) {
             console.error('API Error:', err)
@@ -58,7 +58,7 @@ function Home() {
             // console.log("Current Page:", page)
             // console.log("Posts Per Page:", postsPerPage)
             // console.log("Total Posts from API:", response.data.totalPosts)
-            // console.log("Number of Posts Fetched:", response.data.data.length)
+            console.log(response)
 
             setPosts(response.data.data || [])
             setMyPosts(response.data.totalPosts || 0)
@@ -167,7 +167,7 @@ function Home() {
                 onDeletePost={(postId, postTitle) => handleDeletePost(postId, postTitle)}
                 currentPage={currentPage}
                 postsPerPage={postsPerPage}
-                totalPosts={totalPosts}
+                myPosts={myPosts}
                 onPageChange={handlePageChange}
             />
             <AddPostForm
