@@ -32,10 +32,11 @@ function Home() {
         }
     }, [])
 
-    const fetchMyPosts = useCallback(async () => {
+    const getAllPosts = useCallback(async () => {
         try {
-            const response = await axios.post(`${config.baseUrl}/api/posts/mypost`, { page: 1, limit: 1 }, {
-                headers: { Authorization: `Bearer ${token}` }
+            const response = await axios.get(`${config.baseUrl}/api/posts`, {
+                headers: { Authorization: `Bearer ${token}` },
+                params: { page: 1, limit: 1 }
             })
             console.log(response)
             setMyPosts(response.data.totalPosts)
@@ -44,22 +45,15 @@ function Home() {
         }
     }, [token])
 
-    const fetchPosts = useCallback(async (page, role) => {
-        const endPoint = role === 'admin' ? '/api/posts' : '/api/posts/mypost'
-        const method = role === 'admin' ? 'get' : 'post'
+    const fetchPosts = useCallback(async (page) => {
+        const endPoint = '/api/posts/mypost'
         const options = {
             headers: { Authorization: `Bearer ${token}` },
             params: { page, limit: postsPerPage }
         }
 
         try {
-            const response = await axios({
-                method,
-                url: `${config.baseUrl}${endPoint}`,
-                ...(method === 'post' && { data: options.params }),
-                ...(method === 'get' && { params: options.params }),
-                headers: options.headers
-            })
+            const response = await axios.post(`${config.baseUrl}${endPoint}`, options.params, { headers: options.headers })
 
             // console.log("Current Page:", page)
             // console.log("Posts Per Page:", postsPerPage)
@@ -69,15 +63,12 @@ function Home() {
             setPosts(response.data.data || [])
             setTotalPosts(response.data.totalPosts || 0)
 
-            if (role === 'admin') {
-                fetchMyPosts()
-            }
         } catch (err) {
             setModalMessage(err.message)
             setModalType('error')
             setModalOpen(true)
         }
-    }, [token, postsPerPage, fetchMyPosts])
+    }, [token, postsPerPage])
 
     const fetchTotalAccounts = useCallback(async () => {
         try {
@@ -95,13 +86,13 @@ function Home() {
         if (token) {
             const user = parseJwt(token)
             setUserRole(user.role)
-            fetchPosts(currentPage, user.role)
+            fetchPosts(currentPage)
             if (user.role === 'admin') {
                 fetchTotalAccounts()
-                fetchMyPosts()
+                getAllPosts()
             }
         }
-    }, [currentPage, token, fetchPosts, fetchTotalAccounts, fetchMyPosts, parseJwt])
+    }, [currentPage, token, fetchPosts, fetchTotalAccounts, getAllPosts, parseJwt])
 
     const handlePageChange = (page) => {
         setCurrentPage(page)
@@ -131,8 +122,8 @@ function Home() {
             })
             console.log('API Response:', response.data)
             setModalOpen(false)
-            fetchPosts(currentPage, userRole)
-            fetchMyPosts()
+            fetchPosts(currentPage)
+            getAllPosts()
 
         } catch (err) {
             setModalMessage(err.message)
@@ -183,8 +174,8 @@ function Home() {
                 show={showAddModal}
                 handleClose={() => setShowAddModal(false)}
                 refreshPosts={() => {
-                    fetchPosts(currentPage, userRole)
-                    fetchMyPosts()
+                    fetchPosts(currentPage)
+                    getAllPosts()
                 }}
                 selectedPost={selectedPost}
             />
