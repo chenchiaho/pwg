@@ -39,7 +39,7 @@ function Home() {
                 params: { page: 1, limit: 1 }
             })
             console.log(response)
-            setMyPosts(response.data.totalPosts)
+            setTotalPosts(response.data.totalPosts)
         } catch (err) {
             console.error('API Error:', err)
         }
@@ -61,7 +61,7 @@ function Home() {
             // console.log("Number of Posts Fetched:", response.data.data.length)
 
             setPosts(response.data.data || [])
-            setTotalPosts(response.data.totalPosts || 0)
+            setMyPosts(response.data.totalPosts || 0)
 
         } catch (err) {
             setModalMessage(err.message)
